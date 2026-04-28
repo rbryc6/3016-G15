@@ -10,7 +10,7 @@ Build/retrieve images (if it says permission denied when running docker commands
 Run commands in order (because IP addresses are hardcoded)
 1. docker run -d -p 27017:27017 mongo:latest
 2. docker run -d -p 4000:4000 [choose-app-name]:latest
-3. docker run -d --env PORT="8080" --env ME_CONFIG_MONGODB_URL="mongodb://172.17.0.2:27017" -p 8088:8088 mongo-express:latest
+3. docker run -d --env PORT="8088" --env ME_CONFIG_MONGODB_URL="mongodb://172.17.0.2:27017" -p 8088:8088 mongo-express:latest
 4. docker run -d --env -p 80:80 -p 443:443 -p 8081:8081 [choose-nginx-name]:latest
 
 
