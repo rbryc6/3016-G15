@@ -1,0 +1,47 @@
+# web-notes-service.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-notes-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: web-notes
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+      nodePort: 30000
+
+---
+
+# web-notes-deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-notes-deployment
+  labels:
+    app: web-notes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-notes
+  template:
+    metadata:
+      labels:
+        app: web-notes
+    spec:
+      containers:
+      - name: web-notes
+        image: web-notes
+        imagePullPolicy: Never
+        env:
+        - name: WEB_APP_NOTES_MONGODB_HOST
+          value: mongo-db-service
+        - name: WEB_APP_NOTES_MONGODB_DATABASE
+          value: web-notes
+        ports:
+        - containerPort: 4000

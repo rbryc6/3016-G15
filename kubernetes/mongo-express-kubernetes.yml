@@ -1,0 +1,46 @@
+# mongo-express-service.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-express-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: mongo-express
+  ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8088
+      nodePort: 30001
+
+---
+
+# mongo-express-deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-express-deployment
+  labels:
+    app: mongo-express
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-express
+  template:
+    metadata:
+      labels:
+        app: mongo-express
+    spec:
+      containers:
+      - name: mongo-express
+        image: mongo-express
+        env:
+        - name: PORT
+          value: "8088"
+        - name: ME_CONFIG_MONGODB_URL
+          value: "mongodb://mongo-db-service:27017"
+        ports:
+        - containerPort: 8088
