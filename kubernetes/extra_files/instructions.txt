@@ -1,0 +1,18 @@
+Build/retrieve images (if it says permission denied when running docker commands run them with sudo)
+1. cd 3016-G15/web-notes
+2. docker build -t [choose-app-name] .
+3. cd ..
+4. cd nginx
+5. docker build -t [choose-nginx-name] .
+6. docker pull mongo
+7. docker pull mongo-express
+
+Run commands in order (because IP addresses are hardcoded)
+1. docker run -d -p 27017:27017 mongo:latest
+2. docker run -d -p 4000:4000 [choose-app-name]:latest
+3. docker run -d --env PORT="8088" --env ME_CONFIG_MONGODB_URL="mongodb://172.17.0.2:27017" -p 8088:8088 mongo-express:latest
+4. docker run -d --env -p 80:80 -p 443:443 -p 8081:8081 [choose-nginx-name]:latest
+
+
+Access project by entering 'https://34.236.150.44' into browser (try opening it in incognito mode if it says something like 'connection refused')
+Access database GUI by entering 'https://34.236.150.44:8081' into browser
